@@ -10,30 +10,47 @@ using System.Windows.Forms;
 
 namespace MyGui
 {
-    public partial class Form1 : Form
+    public partial class MainWindow : Form
     {
-        private readonly Game _game;
         private int _bookSelected = 0;
 
-        public Form1(Game game)
+        internal static void DisplayInLogin(int diceThrow)
         {
-            _game = game;
+            throw new NotImplementedException();
+        }
+
+        private static readonly Game _game = Game.Instance;
+
+        public MainWindow()
+        {
             Player.StatsGenerated += LogToCombat;
+            FightEnemy.FightEvent += LogToCombat;
+            FightEnemy.AskEvent += AskPlayer;
             InitializeComponent();
-            GameText.Text = _game.GetCurrentPage().PageText;
         }
 
         private void ButtonClicked(object sender, EventArgs e)
         {
             var button = (Button)sender;
-            _game.GetNewPage(int.Parse(button.Tag.ToString()));
+            var page = _game.TurnToPage(int.Parse(button.Tag.ToString()));
+            ProcessPage(page);
+        }
+
+        private void ProcessPage(Page page)
+        {
             UpdateGameForm();
+            if (page.Enemies != null)
+            {
+
+                    FightEnemy.FightEnemies(_game.GamePlayer,page.Enemies);
+                
+            }
             this.Update();
         }
 
         private void UpdateGameForm()
         {
-            GameText.Text = _game.GetCurrentPage().PageText;
+            MainTextBox.Text = _game.GetCurrentPage().Text;
             PageLabel.Text = "Page: " + _game.CurrentPageNumber;
             ApLabel.Text = "AP: " + _game.GamePlayer?.Ap;
             MaxApLabel.Text = "Max AP: " + _game.GamePlayer?.MaxAp;
@@ -48,10 +65,15 @@ namespace MyGui
             this.Update();
         }
 
+        private List<Button> GetBtnList()
+        {
+            return new List<Button> { button1, button2, button3, button4, button5, button6, button7, button8, button9, button10 };
+        }
+
         private void SetLinksButtons()
         {
-            var btnList = new List<Button> { button1, button2, button3, button4, button5, button6, button7, button8, button9, button10 };
-            var pageLinks = _game.GetCurrentPage().PageLinks;
+            List<Button> btnList = GetBtnList();
+            var pageLinks = _game.GetCurrentPage().Links;
             int i = 0;
             for (; i < pageLinks.Count; i++)
             {
@@ -63,7 +85,7 @@ namespace MyGui
             for (; i < btnList.Count; i++)
             {
                 var btn = btnList[i];
-                btn.Text="";
+                btn.Text = "";
                 btn.Enabled = false;
             }
         }
@@ -71,7 +93,7 @@ namespace MyGui
         private void SetSpellButtons()
         {
             var btnList = new List<Button> { button6, button7, button8, button9, button10 };
-            var pageSpells = _game.GetCurrentPage().PageSpells;
+            var pageSpells = _game.GetCurrentPage().Spells;
             foreach (var btn in btnList)
             {
                 btn.Text = "";
@@ -79,7 +101,7 @@ namespace MyGui
             }
 
             if (pageSpells == null) return;
-            
+
             for (int i = 0; i < pageSpells.Count; i++)
             {
                 var btn = btnList[i];
@@ -91,15 +113,20 @@ namespace MyGui
 
         private void newGameToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            _game.StartGame();
+            UpdateGameForm();
+        }
+
+        public static Player.PlayerClass AskForClass()
+        {
             DialogResult dialogResult = MessageBox.Show("For Mage press no", "For Warrior press yes", MessageBoxButtons.YesNo);
             var role = (dialogResult == DialogResult.Yes) ? Player.PlayerClass.Warrior : Player.PlayerClass.Mage;
-            _game.StartGame(role);
-            UpdateGameForm();
+            return role;
         }
 
         private void editBookToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var frm = new Form2(_game.Pages, _game.CurrentPageNumber)
+            var frm = new BookEditWindow(_game.Pages, _game.CurrentPageNumber)
             {
                 Location = this.Location,
                 StartPosition = FormStartPosition.Manual
@@ -132,12 +159,22 @@ namespace MyGui
             textBoxCombatLog.AppendText(args.MessageToCombatLog.ToString());
         }
 
+        private void AskPlayer(object sender, AskPlayerEventArgs args)
+        {
+            DialogResult dialogResult = MessageBox.Show(args.MessageToAsk, "?", MessageBoxButtons.YesNo);
+            args.Answer = dialogResult == DialogResult.Yes;
+        }
+
         private void goToPageToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            string promptValue = Prompt.ShowDialog("Test", "123");
-            _game.GetNewPage(int.Parse(promptValue.ToString()));
-            UpdateGameForm();
-            this.Update();
+            string promptValue = Prompt.ShowDialog("Page", "write a nubmer");
+            var page = _game.TurnToPage(int.Parse(promptValue.ToString()));
+            ProcessPage(page);
+        }
+
+        internal static void DisplayInLog(int diceThrow)
+        {
+            throw new NotImplementedException();
         }
     }
 }

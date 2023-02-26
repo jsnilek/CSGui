@@ -10,20 +10,11 @@ namespace TestMyGui
         {
         }
 
-
-
         [Test]
-        public void FightEnemy_NoEnemy()
+        public void FightEnemy_NoEnemies()
         {
             var player = Player.GenerateNewPlayer(Player.PlayerClass.Warrior);
-            FightEnemy.Process(player, null);
-        }
-
-        [Test]
-        public void FightEnemy_PlayerWin()
-        {
-            var player = Player.GenerateNewPlayer(Player.PlayerClass.Warrior);
-            Assert.AreEqual(FightEnemy.Process(player, null), FightEnemy.FightResult.NoEnemy);
+            FightEnemy.FightEnemies(player, null);
         }
     }
 }

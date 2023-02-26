@@ -2,7 +2,7 @@
 
 namespace MyGui
 {
-    public partial class Form1
+    public partial class MainWindow
     {
         public static class Prompt
         {

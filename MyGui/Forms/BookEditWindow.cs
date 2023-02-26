@@ -10,11 +10,11 @@ using System.Windows.Forms;
 
 namespace MyGui
 {
-    public partial class Form2 : Form
+    public partial class BookEditWindow : Form
     {
         private List<Page> _pages { get; }
         private int _currentPage;
-        public Form2(List<Page> pages, int page = 0)
+        public BookEditWindow(List<Page> pages, int page = 0)
         {
             InitializeComponent();
             _pages = pages;
@@ -25,7 +25,7 @@ namespace MyGui
         private void ShowPage(int page = 0)
         {
             Page pageToEddit = _pages[page];
-            PageText.Text = pageToEddit.PageText;
+            PageText.Text = pageToEddit.Text;
             PageToLoad.Text = page.ToString();
             Links.Text = pageToEddit.SerializePageLinks();
             Spells.Text = pageToEddit.SerializePageSpells().Split('=')[1];
@@ -53,11 +53,11 @@ namespace MyGui
 
         private void buttonSave_Click(object sender, EventArgs e)
         {
-            _pages[_currentPage].PageText = PageText.Text;
-            _pages[_currentPage].PageLinks = BookUtilities.ParseLinks(Links.Text);
-            _pages[_currentPage].PageSpells = Spells.Text != string.Empty
+            _pages[_currentPage].Text = PageText.Text;
+            _pages[_currentPage].Links = BookUtilities.ParseLinks(Links.Text);
+            _pages[_currentPage].Spells = Spells.Text != string.Empty
                 ? BookUtilities.ParseClass(Spells.Text, l => new Page.Spell(l)) : null;
-            _pages[_currentPage].PageEnemies = textBoxEnemies.Text != string.Empty
+            _pages[_currentPage].Enemies = textBoxEnemies.Text != string.Empty
                 ? BookUtilities.ParseClass(textBoxEnemies.Text, l => new Enemy(l)) : null;
             BookUtilities.WriteBook(BookUtilities.GetBookPath(0), _pages);
         }

@@ -3,26 +3,33 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace MyGui
 {
-    public class Game
+    public sealed class Game
     {
-        public Game()
-        {
-            LoadBook(0);
-        }
+        private static readonly Game instance = new Game();
 
-        public bool IsGameOn;
+        static Game() { }
+        private Game() { }
+        public static Game Instance { get { return instance; } }
         public Player GamePlayer { get; private set; }
         public int CurrentPageNumber { get; private set; } = 0;
         public List<Page> Pages = null;
 
-        public void StartGame(Player.PlayerClass role)
+        internal void Run()
         {
-            GamePlayer = Player.GenerateNewPlayer(role);
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+            Application.Run(new MainWindow());
+        }
+
+        public void StartGame(Player.PlayerClass? role = null)
+        {
+            Player.PlayerClass selectedRole = (Player.PlayerClass)((role != null) ? role : MainWindow.AskForClass());
+            GamePlayer = Player.GenerateNewPlayer(selectedRole);
             CurrentPageNumber = 1;
-            IsGameOn = true;
         }
 
         public void LoadBook(int book)
@@ -32,7 +39,7 @@ namespace MyGui
         }
 
         public Page GetCurrentPage() { return Pages[CurrentPageNumber]; }
-        public Page GetNewPage(int page)
+        public Page TurnToPage(int page)
         {
             CurrentPageNumber = page;
             return Pages[page];

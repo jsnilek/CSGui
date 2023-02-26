@@ -1,6 +1,6 @@
 ﻿namespace MyGui
 {
-    partial class Form2
+    partial class BookEditWindow
     {
         /// <summary>
         /// Required designer variable.

@@ -61,10 +61,10 @@ namespace MyGui
 
             return new Page
             {
-                PageText = textSplit,
-                PageLinks = linkSpilt,
-                PageSpells = spellSpilt,
-                PageEnemies = EnemiesSpilt,
+                Text = textSplit,
+                Links = linkSpilt,
+                Spells = spellSpilt,
+                Enemies = EnemiesSpilt,
             };
         }
 

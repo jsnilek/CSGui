@@ -1,6 +1,6 @@
 ﻿namespace MyGui
 {
-    partial class Form1
+    partial class MainWindow
     {
         /// <summary>
         /// Required designer variable.
@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.FormLayout = new System.Windows.Forms.TableLayoutPanel();
-            this.GameText = new System.Windows.Forms.TextBox();
+            this.MainTextBox = new System.Windows.Forms.TextBox();
             this.ButtonLayout = new System.Windows.Forms.TableLayoutPanel();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
@@ -74,7 +74,7 @@
             this.FormLayout.ColumnCount = 2;
             this.FormLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 60F));
             this.FormLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 40F));
-            this.FormLayout.Controls.Add(this.GameText, 0, 0);
+            this.FormLayout.Controls.Add(this.MainTextBox, 0, 0);
             this.FormLayout.Controls.Add(this.ButtonLayout, 1, 1);
             this.FormLayout.Controls.Add(this.StatsLayout, 1, 0);
             this.FormLayout.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -86,18 +86,18 @@
             this.FormLayout.Size = new System.Drawing.Size(800, 426);
             this.FormLayout.TabIndex = 1;
             // 
-            // GameText
+            // MainTextBox
             // 
-            this.GameText.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.GameText.Location = new System.Drawing.Point(3, 3);
-            this.GameText.Multiline = true;
-            this.GameText.Name = "GameText";
-            this.GameText.ReadOnly = true;
-            this.FormLayout.SetRowSpan(this.GameText, 2);
-            this.GameText.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.GameText.Size = new System.Drawing.Size(474, 420);
-            this.GameText.TabIndex = 0;
-            this.GameText.Text = "GameText";
+            this.MainTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.MainTextBox.Location = new System.Drawing.Point(3, 3);
+            this.MainTextBox.Multiline = true;
+            this.MainTextBox.Name = "MainTextBox";
+            this.MainTextBox.ReadOnly = true;
+            this.FormLayout.SetRowSpan(this.MainTextBox, 2);
+            this.MainTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.MainTextBox.Size = new System.Drawing.Size(474, 420);
+            this.MainTextBox.TabIndex = 0;
+            this.MainTextBox.Text = "Welcome";
             // 
             // ButtonLayout
             // 
@@ -441,7 +441,7 @@
             this.pickABookToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.shamutantiHillsToolStripMenuItem});
             this.pickABookToolStripMenuItem.Name = "pickABookToolStripMenuItem";
-            this.pickABookToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.pickABookToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
             this.pickABookToolStripMenuItem.Text = "Pick a book";
             // 
             // shamutantiHillsToolStripMenuItem
@@ -454,14 +454,14 @@
             // editBookToolStripMenuItem
             // 
             this.editBookToolStripMenuItem.Name = "editBookToolStripMenuItem";
-            this.editBookToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.editBookToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
             this.editBookToolStripMenuItem.Text = "Edit Book";
             this.editBookToolStripMenuItem.Click += new System.EventHandler(this.editBookToolStripMenuItem_Click);
             // 
             // goToPageToolStripMenuItem
             // 
             this.goToPageToolStripMenuItem.Name = "goToPageToolStripMenuItem";
-            this.goToPageToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.goToPageToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
             this.goToPageToolStripMenuItem.Text = "GoToPage";
             this.goToPageToolStripMenuItem.Click += new System.EventHandler(this.goToPageToolStripMenuItem_Click);
             // 
@@ -490,7 +490,7 @@
         #endregion
 
         private System.Windows.Forms.TableLayoutPanel FormLayout;
-        private System.Windows.Forms.TextBox GameText;
+        private System.Windows.Forms.TextBox MainTextBox;
         private System.Windows.Forms.TableLayoutPanel ButtonLayout;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;

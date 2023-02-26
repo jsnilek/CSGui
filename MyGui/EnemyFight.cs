@@ -1,12 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace MyGui
 {
     public class AskPlayerEventArgs : EventArgs
     {
-        public string MessageToCombatLog;
-        public bool TryLuck;
+        public string MessageToAsk;
+        public bool Answer;
     }
 
     public static class FightEnemy
@@ -21,34 +22,33 @@ namespace MyGui
 
         static bool OnAskEvent(string message)
         {
-            var arg = new AskPlayerEventArgs() { MessageToCombatLog = message };
+            var arg = new AskPlayerEventArgs() { MessageToAsk = message };
             AskEvent(null, arg);
-            return arg.TryLuck;
+            return arg.Answer;
+        }
+        public static void FightEnemies(Player player, IEnumerable<Enemy> enemies)
+        {
+            foreach (Enemy enemy in enemies)
+            {
+                Process(player, enemy);
+            }
         }
 
-        public enum FightResult
+        private static void Process(Player player, Enemy enemy)
         {
-            PlayerWon,
-            EnemyWon,
-            NoEnemy
-        }
-
-        public static FightResult Process(Player player, Enemy enemy)
-        {
-            if (enemy == null) return FightResult.NoEnemy;
-
-            var counter = 0;
+            var round = 0;
 
             while (true)
             {
-                counter++;
+                round++;
+                OnAskEvent("continue to fight");
                 FightRound(player, enemy);
                 // DialogResult dialogResult = MessageBox.Show("Progress the fight", "Round" + counter, MessageBoxButtons.YesNo);
-                if (player.Stamina <= 0) return FightResult.EnemyWon;
-                if (enemy.Stamina <= 0) return FightResult.PlayerWon;
+                if (player.Stamina <= 0) throw new Exception("you died");
+                if (enemy.Stamina <= 0) return;
             }
         }
-        public static void FightRound(Player player, Enemy enemy)
+        private static void FightRound(Player player, Enemy enemy)
         {
             var enemyAP = Dice.DoubleRoll() + enemy.AP;
             var playerAP = Dice.DoubleRoll() + player.Ap;

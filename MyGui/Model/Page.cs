@@ -5,24 +5,24 @@ namespace MyGui
 {
     public partial class Page
     {
-        public string PageText;
-        public List<int> PageLinks;
-        public List<Spell> PageSpells = null;
-        public List<Enemy> PageEnemies = null;
+        public string Text;
+        public List<int> Links;
+        public List<Spell> Spells = null;
+        public List<Enemy> Enemies = null;
 
         public string SerializePageLinks()
         {
-            return SerializeList(PageLinks);
+            return SerializeList(Links);
         }
 
         public string SerializePageSpells()
         {
-            return "spells=" + SerializeList(PageSpells);
+            return "spells=" + SerializeList(Spells);
         }
 
         public string SerializePageEnemies()
         {
-            return "enemies=" + SerializeList(PageEnemies);
+            return "enemies=" + SerializeList(Enemies);
         }
 
         private string SerializeList<T>(List<T> list)
@@ -38,10 +38,10 @@ namespace MyGui
 
         public override string ToString()
         {
-            var retString = PageText.Replace(Environment.NewLine, "\\n") + ';' + SerializePageLinks();
-            if (PageSpells != null)
+            var retString = Text.Replace(Environment.NewLine, "\\n") + ';' + SerializePageLinks();
+            if (Spells != null)
                 retString += ';' + SerializePageSpells();
-            if (PageEnemies != null)
+            if (Enemies != null)
                 retString += ';' + SerializePageEnemies();
             return retString;
         }
